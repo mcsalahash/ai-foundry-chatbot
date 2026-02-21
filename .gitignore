@@ -1,0 +1,11 @@
+# Ne jamais versionner les secrets
+.env
+*.env
+config.local.php
+
+# Logs
+*.log
+/logs/
+
+# Dépendances
+/vendor/
