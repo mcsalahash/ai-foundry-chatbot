@@ -1,3 +1,21 @@
+<?php
+/**
+ * index.php — Interface du chatbot GPT-4 via Azure AI Foundry
+ *
+ * Génère un nonce CSP et un token CSRF à chaque chargement de page.
+ */
+
+require_once 'security.php';
+
+// Nonce CSP unique par chargement de page (pour les scripts inline)
+$nonce = base64_encode(random_bytes(16));
+
+// Token CSRF stocké en session (vérifié par api.php)
+$csrfToken = getCsrfToken();
+
+// Envoi des en-têtes de sécurité HTTP avec le nonce
+sendSecurityHeaders($nonce);
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -133,10 +151,12 @@
     <button id="send-btn" onclick="sendMessage()">Envoyer</button>
 </div>
 
-<script>
-    const chatBox = document.getElementById('chat-box');
+<script nonce="<?= htmlspecialchars($nonce, ENT_QUOTES, 'UTF-8') ?>">
+    const CSRF_TOKEN = <?= json_encode($csrfToken) ?>;
+
+    const chatBox  = document.getElementById('chat-box');
     const userInput = document.getElementById('user-input');
-    const sendBtn = document.getElementById('send-btn');
+    const sendBtn  = document.getElementById('send-btn');
 
     // Historique de la conversation
     let conversationHistory = [];
@@ -176,7 +196,10 @@
         try {
             const response = await fetch('api.php', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': CSRF_TOKEN
+                },
                 body: JSON.stringify({ messages: conversationHistory })
             });
 
