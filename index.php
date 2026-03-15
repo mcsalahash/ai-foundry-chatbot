@@ -140,6 +140,18 @@ sendSecurityHeaders($nonce);
         <h1>🤖 Chatbot GPT-4</h1>
         <span>Propulsé par Azure AI Foundry</span>
     </div>
+    <a href="dashboard.php" style="
+        margin-left: auto;
+        display: inline-flex; align-items: center; gap: 0.4rem;
+        background: #1e293b; color: #94a3b8;
+        border: 1px solid #334155; border-radius: 6px;
+        padding: 0.4rem 0.85rem; font-size: 0.82rem; font-weight: 500;
+        text-decoration: none; transition: background 0.15s, color 0.15s;
+    " onmouseover="this.style.background='#334155';this.style.color='#e2e8f0'"
+       onmouseout="this.style.background='#1e293b';this.style.color='#94a3b8'"
+       title="Tableau de bord supervision VTOM">
+        &#9881; Supervision VTOM
+    </a>
 </header>
 
 <div id="chat-box">
